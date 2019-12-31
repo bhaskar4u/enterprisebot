@@ -1,0 +1,27 @@
+{
+  "name": "enterprisebot",
+  "version": "1.0.0",
+  "description": "a simple node app",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "author": "bhaskar kumar",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/joi": "^16.1.8",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "gridfs-stream": "^1.1.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.8.3",
+    "multer": "^1.4.2",
+    "multer-gridfs-storage": "^4.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
