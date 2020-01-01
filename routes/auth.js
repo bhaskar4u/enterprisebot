@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const multer = require('multer');
+
 
 //secret key for token
 process.env.SECRET_KEY = '121'
@@ -14,7 +14,7 @@ router.post('/register', async (req, res) => {
     const emailExist = await User.findOne({ email: req.body.email });
     if (emailExist) return res.status(400).send('email already exist')
     //hashing password
-   
+
     const hashpass = await bcrypt.hash(req.body.password, 10)
     const user = new User({
         name: req.body.name,
@@ -31,6 +31,28 @@ router.post('/register', async (req, res) => {
         res.status(404).send(err)
     }
 });
+
+router.get('/list', async (req, res) => {
+    await User.find({}).then((user) => {
+        res.send(user)
+    })
+
+});
+
+router.get('/list/:id', async (req, res) => {
+    await User.find({_id:req.params.id}).then((user) => {
+        res.send(user)
+    })
+
+});
+
+router.get('/list/byname/:id', async (req, res) => {
+    await User.find({name:req.params.id}).then((user) => {
+        res.send(user)
+    })
+
+});
+
 
 router.post('/signin', async (req, res) => {
     const user = await User.findOne({ email: req.body.email });
@@ -55,22 +77,6 @@ router.post('/signin', async (req, res) => {
     }
 });
 
-router.post('/upload',async(req,res)=>{
-    const emailExist = await Employee.findOne({ email: req.body.email });
-    if (emailExist) return res.status(400).send('email already exist')
-    const emp = new Employee({
-        name:req.body.name,
-        email:req.body.email,
-        image:req.body.image
-    })
-    try{
-        const empData = await emp.save();
-        res.status(200).send(empData)
-    }
-    catch(err){
-        res.status(404).send(err)
-    }
-});
 
 
 

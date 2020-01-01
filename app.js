@@ -6,6 +6,7 @@ const cors = require('cors');
 const crypto = require('crypto');
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs')
 const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 const app = express();
@@ -15,28 +16,34 @@ const mongoURI = "mongodb://localhost:27017/Bot"
 //importing routes
 const authRoutes = require('./routes/auth')
 const Employee = require('./models/Employee')
-//middlewares
+// const path = path.resolve(__dirname,'files','image.jpg')
 
+
+
+
+//middlewares
 app.use(bodyParser.json());
 app.use(express.json())
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(cors());
 app.use('/api/user/',authRoutes);
 
-
-const conn = mongoose.createConnection(mongoURI,{
+//use mongoose.connect with authRoutes
+//use mongoose.createConnection with binary data
+conn = mongoose.connect(mongoURI,{
     useNewUrlParser:true,
     useUnifiedTopology:true
-},(err,res)=>{
+},(err)=>{
     if(err){
         console.log("mongoDB not Connected",err);
         
     }
     console.log("mongoDB connected Successfully");
     
-})
-let gfs;
+});
 
+let gfs;
+//comment conn.once while using mongoose.connect
 conn.once('open',()=>{
     //init stream
     gfs = Grid(conn.db,mongoose.mongo);
